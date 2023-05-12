@@ -24,29 +24,23 @@ function start(n, fileA, fileB) {
   let ia = 0;
   while (ia < A_ordenado.length) {
     while (ia < A_ordenado.length && ib < B_ordenado.length) {
-      console.log('----')
-      console.log(`A: i${ia} - ${A_ordenado[ia]}`);
-      console.log(`B: i${ib} - ${B_ordenado[ib]}`);
-      console.log(`if ${A_ordenado[ia][0]} >= ${B_ordenado[ib][0]} ${A_ordenado[ia][0] >= B_ordenado[ib][0]}`)
-      console.log(`   ${A_ordenado[ia][1]} >= ${B_ordenado[ib][1]} ${A_ordenado[ia][1] >= B_ordenado[ib][1]}`)
+      const [xa, ya] = A_ordenado[ia];
+      const [xb, yb] = B_ordenado[ib];
+      console.log("----");
+      console.log(`A[${ia}](x:${xa} y:${ya})`);
+      console.log(`B[${ib}](x:${xb} y:${yb})`);
+      console.log(`if ${xa} >= ${xb} ${xa >= xb}-x`);
+      console.log(`   ${ya} >= ${yb} ${ya >= yb}-y`);
 
-      if (
-        A_ordenado[ia][0] >= B_ordenado[ib][0] &&
-        A_ordenado[ia][1] >= B_ordenado[ib][1]
-      ) {
+      if (xa >= xb && ya >= yb) {
         m3.push(
-          `${A_ordenado[ia][0].toFixed(1)} ${A_ordenado[ia][1].toFixed(
-            1
-          )} -> ${B_ordenado[ib][0].toFixed(1)} ${B_ordenado[ib][1].toFixed(1)}`
+          `${xa.toFixed(1)} ${ya.toFixed(1)} -> ${xb.toFixed(1)} ${yb.toFixed(1)}`
         );
-        console.log(`M: ia:${ia} ib:${ib} - ${A_ordenado[ia]} -> ${B_ordenado[ib]}`);
-        ia++;
+        console.log(`M: A[${ia}](x:${xa} y:${ya}) -> B[${ib}](x:${xb} y:${yb})`);
+        ia++; // aqui si a -many-> b: commet
         ib++;
-      } else if (
-        A_ordenado[ia][0] < B_ordenado[ib][0] &&
-        A_ordenado[ia][1] < B_ordenado[ib][1]
-      ) {
-        console.log(`R: ${A_ordenado[ia]} -> ${B_ordenado[ib]}`)
+      } else if (xa < xb && ya < yb) {
+        console.log(`R: A(x:${xa} y:${ya}) -> B(x:${xb} y:${yb})`);
         ia++;
         ib = 0;
       } else {
@@ -69,6 +63,7 @@ console.log(
   `\n(A -> B)\n${matchings.join("\n").replace(/(\.)/g, ",")}`
 );
 
+// node ./file_1.js 9999 ./a_0.txt ./b_0.txt
 // node ./file_1.js 9999 ./a_1.txt ./b_1.txt
 // node ./file_1.js 9999 ./a_2.txt ./b_2.txt
 // node ./file_1.js 9999 ./a_3.txt ./b_3.txt
