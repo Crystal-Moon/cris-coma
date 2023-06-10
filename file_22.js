@@ -52,8 +52,8 @@ function start(n, fileA, fileB) {
             A_ordenado.splice(ia, 1);
             B_ordenado.splice(ib-1, 1);
 
-            console.log('A despues de match', A_ordenado)
-            console.log('B despues de match', B_ordenado)
+            console.log('A despues de quitar', A_ordenado)
+            console.log('B despues de quitar', B_ordenado)
 
             ia = ia -1;
             b=0
@@ -68,8 +68,8 @@ function start(n, fileA, fileB) {
             A_ordenado.splice(ia, 1);
             B_ordenado.splice(ib, 1);
 
-            console.log('A despues de match', A_ordenado)
-            console.log('B despues de match', B_ordenado)
+            console.log('A despues de quitar', A_ordenado)
+            console.log('B despues de quitar', B_ordenado)
 
             ia = ia -1;
             b=0
