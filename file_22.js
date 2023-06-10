@@ -11,7 +11,7 @@ function start(n, fileA, fileB) {
     const coords = arr
       .map((str) => str.replace(/(,)/g, ".").split(" ")) // Se separa el texto en lo que será X e Y
       .map(([x, y]) => [Number(x), Number(y)]) // y se lo transforma en numeros reales
-      .sort((a, b) => a[0] - b[0]); // se ordena segun X e Y (si la x es igual)
+      .sort((a, b) => a[0] - b[0] || b[1] - a[1]); // se ordena segun X e Y (si la x es igual)
     return coords;
   };
 
@@ -20,15 +20,10 @@ function start(n, fileA, fileB) {
 
   console.log({ A_ordenado, B_ordenado });
 
-  //let ib = 0;
-  //let ia = 0;
-  let y = 'N'
-  let newy;
   for (let ia=0; ia < A_ordenado.length;  ia++) {
-    let ib =0
-    newy = undefined
-    y = 'M'
-    for (; ia < A_ordenado.length && ib < B_ordenado.length; ib++) {
+    let newB;
+    let resta;
+    for (let ib =0; ia < A_ordenado.length && ib < B_ordenado.length; ib++) {
     
       const [xa, ya] = A_ordenado[ia];
       const [xb, yb] = B_ordenado[ib];
@@ -38,146 +33,59 @@ function start(n, fileA, fileB) {
       console.log(`if ${xa} >= ${xb} ${xa >= xb}-x`);
       console.log(`   ${ya} >= ${yb} ${ya >= yb}-y`);
 
-      let betterB;
       if (xa < xb && ib < B_ordenado.length ) {
-        console.log(`R: A(x:${xa} y:${ya}) -> B(x:${xb} y:${yb})`);
-        //ia++;
-       // ib = 0;
-        //continue;
-       
-       
-
+        console.log(`Restart B: A(x:${xa} y:${ya}) -> B(x:${xb} y:${yb})`);
         break;
       }else {
-        betterB = yb;
         if (ya >= yb) {
-          console.log('comparando', y, ya-yb)
-
-
-          y = y < ya - yb ? y : ya - yb;
-          
-         // console.log('tentative mejor', B_ordenado[ib+1], B_ordenado[ib+1]?.[1] < yb,  B_ordenado[ib+1]?.[1], yb)
-        //  if (B_ordenado[ib+1]?.[1] < yb) {
-
-        console.log('final', ya-yb, y)
-          if(y < ya-yb) {
-            console.log(' me quede con', newy)
+          let nuevaResta =  ya-yb
+          console.log('comparando: resta anterior', resta,' resta actual:', nuevaResta)
+          resta = resta < nuevaResta ? resta : nuevaResta;
+          if(resta < nuevaResta) {
+            console.log(' me quede con', newB)
 
             console.log('ya no vas a contrar nada mejor')
-            let m= `${xa.toFixed(1)} ${ya.toFixed(1)} -> ${newy[0].toFixed(1)} ${newy[1].toFixed(1)}`
+            let m= `${xa.toFixed(1)} ${ya.toFixed(1)} -> ${newB[0].toFixed(1)} ${newB[1].toFixed(1)}`
 
-       
-            console.log(`M: A[${ia}](x:${xa} y:${ya}) -> B[${ib}](x:${newy[0]} y:${newy[1]})`);
-            //ia++; // aqui si a -many-> b: commet
-            //ib++;
-    
-            //ib =0
-           //ia++
-              
+            console.log(`M: A[${ia}](x:${xa} y:${ya}) -> B[${ib}](x:${newB[0]} y:${newB[1]})`);
 
-             //A_ordenado =
-              A_ordenado.splice(ia, 1);
-
-            //B_ordenado =  
+            A_ordenado.splice(ia, 1);
             B_ordenado.splice(ib-1, 1);
 
-            console.log('nuevo a', A_ordenado)
-            console.log('nuevo b', B_ordenado)
+            console.log('A despues de match', A_ordenado)
+            console.log('B despues de match', B_ordenado)
 
-              ia = ia -1;
-              //ib-=ib
+            ia = ia -1;
             b=0
-
-
 
             m3.push(m);
           } else {
-          newy = [xb, yb]
+          newB = [xb, yb]
 
           if (!B_ordenado[ib+1]) {
-            let m= `${xa.toFixed(1)} ${ya.toFixed(1)} -> ${newy[0].toFixed(1)} ${newy[1].toFixed(1)}`
-
-            console.log(`M: A[${ia}](x:${xa} y:${ya}) -> B[${ib}](x:${newy[0]} y:${newy[1]})`);
-          
-              A_ordenado.splice(ia, 1);
- 
+            let m= `${xa.toFixed(1)} ${ya.toFixed(1)} -> ${newB[0].toFixed(1)} ${newB[1].toFixed(1)}`
+            console.log(`M: A[${ia}](x:${xa} y:${ya}) -> B[${ib}](x:${newB[0]} y:${newB[1]})`);
+            A_ordenado.splice(ia, 1);
             B_ordenado.splice(ib, 1);
 
-            console.log('nuevo a', A_ordenado)
-            console.log('nuevo b', B_ordenado)
+            console.log('A despues de match', A_ordenado)
+            console.log('B despues de match', B_ordenado)
 
             ia = ia -1;
-            //ib-=ib
-          b=0
-
-
+            b=0
             m3.push(m);
-
-
           }
 
             continue
           }
             
-         
-          /*
-          //if (y < ya -yb) {
-            console.log('ya no vas a contrar nada mejor')
-            let m= `${xa.toFixed(1)} ${ya.toFixed(1)} -> ${newy[0].toFixed(1)} ${newy[1].toFixed(1)}`
-
-       
-            console.log(`M: A[${ia}](x:${xa} y:${ya}) -> B[${ib}](x:${newy[0]} y:${newy[1]})`);
-            //ia++; // aqui si a -many-> b: commet
-            //ib++;
-    
-            //ib =0
-           //ia++
-              
-
-             //A_ordenado =
-              A_ordenado.splice(ia, 1);
-
-            //B_ordenado =  
-            B_ordenado.splice(ib, 1);
-
-            console.log('nuevo a', A_ordenado)
-            console.log('nuevo b', B_ordenado)
-
-              ia = ia -1;
-              //ib-=ib
-            b=0
-
-            
-
-              //ib++;
-            m3.push(m);
-          */
-            //continue;
           } else {
-            console.log(' el q viene no sirve', 'quedo', newy)
-            let m= `${xa.toFixed(1)} ${ya.toFixed(1)} -> ${newy[0].toFixed(1)} ${newy[1].toFixed(1)}`
+          //  console.log(' el q viene no sirve', 'quedo', newB)
+          //  let m= `${xa.toFixed(1)} ${ya.toFixed(1)} -> ${newB[0].toFixed(1)} ${newB[1].toFixed(1)}`
 
-            console.log(`M: A[${ia}](x:${xa} y:${ya}) -> B[${ib}](x:${newy[0]} y:${newy[1]})`);
-            m3.push(m)
-
+          //  console.log(`M: A[${ia}](x:${xa} y:${ya}) -> B[${ib}](x:${newB[0]} y:${newB[1]})`);
+          //  m3.push(m)
           }
-          
-          //continue;
-          //for( let i =0; i<  )
-      //  } 
-       
-
-     //   let m= `${xa.toFixed(1)} ${ya.toFixed(1)} -> ${newy[0].toFixed(1)} ${newy[1].toFixed(1)}`
-
-       
-       // console.log(`M: A[${ia}](x:${xa} y:${ya}) -> B[${ib}](x:${newy[0]} y:${newy[1]})`);
-        //ia++; // aqui si a -many-> b: commet
-        //ib++;
-
-
-        //m3.push(m);
-
-        //break;
       } 
     }
 
@@ -195,10 +103,12 @@ console.log(
   `\n(A -> B)\n${matchings.join("\n").replace(/(\.)/g, ",")}`
 );
 
-// node ./file_1.js 9999 ./a_0.txt ./b_0.txt
-// node ./file_1.js 9999 ./a_1.txt ./b_1.txt
-// node ./file_1.js 9999 ./a_2.txt ./b_2.txt
-// node ./file_1.js 9999 ./a_3.txt ./b_3.txt
+// node ./file_22.js 9999 ./a_0.txt ./b_0.txt
+// node ./file_22.js 9999 ./a_1.txt ./b_1.txt
+// node ./file_22.js 9999 ./a_2.txt ./b_2.txt
+// node ./file_22.js 9999 ./a_3.txt ./b_3.txt
+// node ./file_22.js 9999 ./a_no.txt ./b_no.txt
+// node ./file_22.js 9999 ./a_n1.txt ./b_n1.txt
 
 
 /**
