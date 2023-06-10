@@ -11,7 +11,7 @@ function start(n, fileA, fileB) {
     const coords = arr
       .map((str) => str.replace(/(,)/g, ".").split(" ")) // Se separa el texto en lo que será X e Y
       .map(([x, y]) => [Number(x), Number(y)]) // y se lo transforma en numeros reales
-      .sort((a, b) => a[0] - b[0] || b[1] - a[1]); // se ordena segun X e Y (si la x es igual)
+      .sort((a, b) => a[0] - b[0]); // se ordena segun X e Y (si la x es igual)
     return coords;
   };
 
